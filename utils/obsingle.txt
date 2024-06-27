@@ -1,0 +1,589 @@
+OceanBase 2.0 版本开始，创建资源池，其中内存部分可以最小是________？
+A、 1GB
+B、 2GB
+C、 4GB
+D、 5GB
+答案： D
+
+单选题：集群扩容：两地三中心扩容到两地五中心后， 若某租户希望将三副本改为五副本，以下下哪个系统表会被修改
+A、 __all_tenant
+B、 __all_zone
+C、 __all_resource_pool
+D、 __all_unit
+答案： C
+
+单选题： ob 租户创建流程
+A、定义资源 unit 规格，创建资源池分配资源，创建租户
+B、定义资源 unit 规格，创建租户
+C、 创建资源池，创建租户，创建 unit 规格
+D、 创建资源池，创建 unit， 最后建租户
+答案： A
+
+单选题：调整系统表___中的配置，可以动态调整租户的资源单元大小，可以实现租户的节点内动态扩容/缩容功能？
+A、 __all_resource_pool
+B、 __all_tenant
+C、 __all_unit_config
+D、 __all_unit
+答案： C
+
+单选题：查看 OB 集群各个机器已经分配的资源用量的系统表是哪个？
+A __all_virtual_server_stat
+B __all_server_stat
+C __all_server
+D __all_resource_stat
+答案： A
+
+单选题： 查询集群资源配置的系统视图是哪个？
+A、 v$tenant
+B、 v$sysstat
+C、 V$unit
+D、 V$.... (记不清了，但是可以直接排除掉选项）
+答案： C
+
+单选题： Primary Zone 设置优先级 ZONE_1 >ZONE_2 = ZONE_3，正确的是
+A、 zone_1, zone_2, zone_3
+B、 zone_1; zone_2; zone_3
+C、 zone_1; zone_2, zone_3
+D、 zone_1, zone_2; zone_3
+答案： C
+
+单选：系统租户登录集群，删除资源池（名字是 mypool,id 为 1001）的命令是？
+A、 delete from __all_resource_pool where resource_id=1001;
+B、 drop resource pool mypool
+C、 delete resource pool mypool
+D、 delete from __all_resource_pool where resource_name='mypool';
+答案： B
+
+单选：关于表组 table group 描述正确的是?
+A、 dba 可以人工指定表组的分区 leader 分不到不同的 unit 上
+B、 表组内的分区 leader 会尽量聚集在相同的 unit 中，以便降低跨节点性能下降问题
+C、 表组内的分区 leader 由系统随机分散到不同 unit 上
+D、 表组内的分区 leader 可以尽量分散到不同的 unit 上，以分散 ob server 的负载
+答案： B
+
+单选题： zone 扩容： zone 的 unit 增加， unit 规格变化，以下哪个系统表会被修改
+A、 __unit_config
+B、 __all_tenant
+C、 __all_unit
+D、__all_unit_config
+E、 __all_resource_pool
+答案： E
+
+单选题：一个租户中有四个表 t0(p0,p1),t1(p11,p12),t3(p31,p32),t4(p41,p42)，这四个表在 1-1-1-1（四个 zone，每个 zone 有一个 observer），在表组 TG01 中，且这个租户只有一个 unit，现在再添加一个 unit，问每个表分区组的个数及分布？
+A 有两个分区组，且每个 unit 中各有一个分区组
+答案： A
+
+单选题：一个表 20 个分区，存放在 3-3-3（ 3 个 zone,每个 zone 有三个 OBserver),现在对每个zone 都添加一个 observer，问表的 20 个分区如何分布？
+A Server 上的分区部分会迁移到新的 server
+答案： A
+
+3-3-3 的集群（ 3 个 zone,每个 zone 有三个 OBserver),一个 unit 20 个分区，现在资源紧张，考虑增加 unit 。
+A 新增 unit 将会出现在其中另外两台 server 上的一台 ，并且一部分分区将会迁移到新的 unit 上，
+答案： A
+
+客户 OB 集群 2-2-2 模式，上面有四个租户，在每个 zone 中各有一个 unit，租户 A 的 unit 规格： 5c 20G， B： 20c 40G,C:20c 100G,D:20c 100G。客户将集群扩展为 3-3-3,扩展后租户的 unit ，最有可能将会如何在每个 zone 的 OBserver 上分布？（单选题）
+A 原有的 observer 上承载租户 A 的 unit，新的 observer 中上承载 BCD 的 unit
+B 原有的 observer 上承载租户 AB 的 unit,新的 observer 中上承载 CD 的 unit
+C 原有的 observer 上承载租户 BC 的 unit,新的 observer 中上承载 AD 的 unit
+D 原有的 observer 上承载租户 ABC 的 unit,新的 observer 中上承载 D 的 unit
+答案： D
+
+单选： observer 1-1-1 集群上，有 4 个租户，这 4 个租户的使用 unit 资源规格是一样的，并且每个租户只有一个 unit，现将集群扩展成 2-2-2，请问：扩展后租户的 unit 将会如何在每个 zone的 observer 上分布？
+A、 原有的 observer 上 3 个租户 unit；新扩容的 onserver 上 1 个租户 unit
+B、 原有的 observer 上 4 个租户 unit；新扩容的 onserver 上没有 unit
+C、 原有的 observer 上 1 个租户 unit；新扩容的 onserver 上 3 个租户 unit
+D、 每个 zone 的两个 observer 上各有 2 个租户 unit
+答案： D
+
+（__all_virtual_server_stat cpu total - cpu max assigned = 剩余可以分多少）给定一条 sql 查询语句，查了__all_tenant 和__all_virtual_server_stat，可以看到：\nMax_cpu min_cpu min_memory Max_memory\nSys 1 1 x x x x\n\nsysql 1 1011\nOracle 1 1002\n当前 ob server 已经分配的 cpu、内存资源分别为：
+A、 Max_cpu=9 min_cpu=4.5 min_memory=1190XXXX Max_memory=1265xxxx
+答案： A
+
+单选题：在一个 3-3-3 的 OB 集群上（（3 个 zone，每个 ZONE 有 3 台 observer），每个 observer 的容量都是 64C120G，管理员想要创建一个租户，这个租户一共有 100C200G，可行的方案有？
+A、创建一个 100C200G 的 Unit ， OB 系统会自动平均分配到 3 个 oberser 上
+B、定义 25C50G 的 unit，并且创建 4 个 Unit 给这个租户
+C、定义 50C100G 的 unit，并且创建 2 个 unit 给这个租户
+D、不能创建这样的租户，因为 100 和 200 都不能平均分配给 3 个 observer
+答案： C
+
+单选题：对于租户资源不够时，需要扩容，哪个视图里反应了资源单元大小？
+A.all_unit
+B All_unit_config
+C All_resource_pool
+D All_zone
+答案： B
+
+单选：关于集群扩容步骤描述正确的是？
+A. 在目标节点内部先创建 unit，然后再复制 unit 内部的 partition, 完成副本的角色切换，最后下线多余的， Partition 和 Unit .
+B. 拷贝 Partition 到目标机器，然后完成角色切换，根据这些 Partition 生成 unit， 最后下线原来的 Partition 和 unit，
+C. 拷贝 Partition 到目标机器，根据这些 Partition 生成 unit，完成角色切换，最后下线原来的Partition 和 unit，
+D。在目标节点内部先创建 unit，然后再复制 unit 内部的 partition，下线多余的 partition 和 unit最后完成副本的角色切换。
+答案： A
+
+需要干预 leader 副本分布的主要原因是什么？
+A. 一个应用请求如果包含多个分区副本，这些副本无规则分布在多个机房，上层应用要和多个机房联系
+B. 分区 leader 副本分布在所有机房时，可能会产生跨机房甚至跨城市的远程分布式事务；从性能角度考虑，希望减少这种远距离的分布式事务，减少远程网络开销。
+C. 分布式数据库数据分布特点通常是无规则的，影响上层业务的感知
+D. obproxy 需要维护复杂的分区路由
+答案： B
+
+单选题:有一个租户，租户的资源配置为unit_num=3,zone_list=('zone1','zone2','zone3'),locality='F@zone1,F@zone2,F@zone3',primary_zone='RANDOM',自动负载均衡开关打开。
+A.有 3 个副本其中只有一个 leader 副本，副本分布在 3 个 zone 的任意一个 unit 上， leader 副本应该在 zone1 上。
+B. 有 3 个副本且 3 个都是 leader 副本，所有副本和 leader 集中分布在一个 zone 的 3 个 unit上，可能是 zone1、可能是 zone2、可能是 zone3
+C.只有 1 个副本且该副本为 leader,副本和 leader 可能分布在 zone1、 zone2、 zone3 中任意位置
+D.有 3 个副本其中只有一个 leader 副本，副本分布在 3 个 zone 的任意一个 unit 上，且任意两个副本不能再同一个 zone,leader 副本可能在 zone1、 zone2、 zone3 任意位置。
+答案： D
+
+Rootservice 依照一定策略，依次调度每个 zone 开始合并，直至所有 zone 都合并完成，这个过程称为？
+A、 自动智能轮转合并
+B、 指定顺序轮转合并
+C、 自动非轮转合并
+D、 手动合并
+答案： A
+
+单选题：在 OB server 的内存结构中，不用设定具体值的内存结构是：
+A、 MemStore
+B、 KV cache
+C、 plan cache
+D、 SQL area
+答案： B
+
+单选题：某个租户的 memstore 写到一定的比例后会自行发起冻结，调节这个比例的参数叫做？
+A memory_limit
+B memstore_limit_percentage
+C global_major_freeze_residual_memory
+D freeze_trigger_percentage
+答案： D
+
+单选题:假设一台服务器的规格是 32C120G，这台服务器上部署 Observer,其中启动参数 memory_limit=80G， memory_limit_percentage= 80%，那么这台 observer 的内存上限是多少？
+A、 100G
+B、 80G
+C、 102.4G
+D、 96G
+答案： B
+
+单选题：一个 observer 32C 128G， memory_limit_percentage=80，system_memory=20问一个租户要求的资源是 4C 16G，问该 observer 可以建多少个这样的租户资源？
+A、4
+B、5
+C、6
+D、7
+E、8
+答案： B
+
+单选题：下列哪一种 cache 的内存大小是可以被 DBA 设置调整的？
+A、 plan_cache
+B、 user_block_cache
+C、 location_cache
+D、 bf_cache
+答案： A
+
+单选题 ： 32c128G observer 服务器，memory_limit=90 ， memory_limit_percentage=80 ，system_memory=20,只有一种租户规格 unit：4c16G，最多可以部署多少个unit？
+A、 4
+B、 3
+C、 5
+D、 6
+答案： A
+
+单选题：设置定时合并的命令： A
+A、alter system set major_freeze_duty_time='02:00'
+B、alter system set major_freeze_duty_date='02:00'
+C、xxx
+D、xxx
+答案： A
+
+手动合并的命令是下面的哪一个？
+A、 alter system major freeze；
+B、 alter system minor freeze；
+答案： A
+
+单选题:假设 OceanBase 内存上限为 80 GB， system_memory 的值为 8G，可用于租户分配的内存是多少？
+A、80G
+B、75G
+C、72G
+D、64G
+答案： C
+
+单选：以下哪参数不属于合并的相关参数？
+A、freeze_trigger_percentage
+B、major_freeze_duty_time
+C、minor_freeze_times
+D、zone_merge_timeout
+E、major_compact_trigger
+F、minor_merge_concurrency
+答案： F
+
+某台 observer 合并卡住后，如何操作？单选
+A、直接重启 observer 进程
+B、先 suapend merge，后重启 observer 进程
+C、stop server
+D、先 Stop server，后重启 onserver 进程
+答案： D
+
+单选题：对于客户端的请求，数据库端会生成执行计划，关于远程执行计划（Remote execution plan），下面说法正确的是________？
+A、执行计划在多台数据库服务器上执行，每台服务器完成其中的一部分工作
+B、接收用户请求和生成执行计划的数据库服务器和计划执行的数据库服务器不是同一个，并且只有一台数据库服务器执行该计划
+C、接收客户端请求生成执行计划的数据库服务器和计划实际执行的服务器是同一个
+D、客户端和数据库服务器距离较远时，由数据库生成的执行计划
+答案： B
+
+单选题： SQL 请求执行流程
+A:Parser>Resolver> Code Gen> Optimizer>Executor
+B:Parser>Plan Cache>Resolver>Transformer>Optimizer>Code Gen>Executor
+C:Parser>Plan Cache> Resolver>Transformer>Optimizer> Executor>Code Gen
+D:Parser>Resolver>Plan Cache>Optimizer>Executor >Code Gen
+答案： B
+
+单选题：关于 ob 查询改写规则正确的是
+A、 基于规则+基于代价
+B、 基于规则
+C、 基于代价
+答案： A
+
+单选题：对于客户端的请求，数据库端会生成执行计划，关于远程执行计划（Remote execution plan），下面说法正确的是________？
+A 执行计划在多台数据库服务器上执行，每台服务器完成其中的一部分工作
+B 接收用户请求和生成执行计划的数据库服务器和计划执行的数据库服务器不是同一个，并且只有一台数据库服务器执行该计划
+C 接收客户端请求生成执行计划的数据库服务器和计划实际执行的服务器是同一个
+D 客户端和数据库服务器距离较远时，由数据库生成的执行计划 -----没有这个说法
+答案： B
+
+单选：已知租户内存为 50G， ob_plan_cache_percentage=20,ob_plan_cache_evict_high_percentage=80,ob_plan_cache_evict_low_percentage=40,下列说法正确的是
+A、该租户计划缓存使用不会超过 8G
+B、该租户计划缓存使用达到 4G 才会开始触发淘汰
+C、计划缓存使用达到 4G 才会开始出发淘汰
+D、该租户计划缓存可以使用 12G 内存
+E、该租户计划缓存使用超过 8G 时，会触发淘汰
+答案： E
+
+哪个是 explain extended 的输出？
+A、explain extended 会多出 range key 的信息
+答案： A
+
+单选题： OB 的 SQL 引擎通过哪种机制来避免 SQL 硬解析？
+A、Plan Cache
+B、Data Cache
+C、Location Cache
+D、Result Cache
+答案： A
+
+单选题：针对慢查询的优化，不正确的是?
+A、通过 Explain 查看真实的执行计划
+B、gv$sql_audit 中 elapsed_time,execute_time 以及 queue_time 分别代表“总耗时”，“执行时间”，“排队时间”
+C、通过 observer.log 或 gv$sql_audit 定位慢查询
+D、使用 outline 可以将执行计划绑定
+答案： A
+
+单选题：在 SQL 调优过程中，需要依赖系统视图 gv$sql_audit，以下正确的是
+A、数据保存在 OceanBase 集群系统表中
+B、 gv$sql_audit 记录的是以 sql id 为维度的多次执行的汇总
+C、后台任务每隔 1s 会检测是否需要淘汰
+D、 gv$sql_audit 上提供的等待事件和等待时间，时间类型单位为毫秒
+答案： C
+
+单选： ob 分区表如果按照时间分片，采用哪种分区方式？
+A、 range column 分区
+B、 Range 分区
+C、 hash 分区
+D、 Key 分区
+答案： B
+
+单选题： key 分区类型的分区表，如果在建表语句中，如果不指定任何分区键，例如： create table t1 (c1 int primary key, c2 int) partition by key() partitions 5，则会：
+A、 语法有问题，分区键不能为空，这个 DDL 语句报错
+B、 以建表语句中的第一列作为分区键
+C、 以主键作为分区键
+D、 没有分区键
+答案：C
+
+单选题：关于分区的扩展性，以下哪个是正确的？
+A、Range 分区支持添加后续分区
+B、hash 分区支持添加后续分区
+C、key 分区支持添加后续分区
+D、list 分区支持添加后续分区
+答案： A
+
+单选：建组合索引的时候，对于区分度最高的字段，应该？
+A、放在索引的最左边
+B、放在索引的最右边
+C、无所谓哪边
+D、放在索引的中间
+答案： A
+
+Observer 的分区表，如果使用时间分片，采用哪种分区方法？
+A、HASH 分区
+B、Range 分区
+C、Key 分区
+D、Range columns 分区
+答案： B
+
+单选题： OceanBase 的分布式事务相比于传统的两阶段提交做了一些改进和优化，关于OceanBase 的分布式事务，下列说法正确的是________？
+A、包括一个阶段：提交阶段（commit）
+B、包括两个阶段：准备阶段（prepare），提交阶段（commit）
+C、包括两个阶段：提交阶段（commit），异步清理阶段（clear）
+D、包括三个阶段：准备阶段（prepare），提交阶段（ commit），异步清理阶段（ clear）
+答案：D
+
+单选题：关于本地执行计划描述是正确的？
+A、在客户端直接完成执行请求，不需要发送到数据库服务器
+B、接收用户请求和生成执行计划的数据库服务器和计划执行的数据库服务器不是同一个，并且只有一台数据库服务器执行该计划
+C、接收客户端请求生成执行计划的数据库服务器和计划实际执行的服务器是同一个
+D、客户端和数据库服务器距离较远时，由数据库生成的执行计划
+答案：C
+
+事务 T1 修改行 1 的数据，事务 T2 修改行 2 的数据， T1 commit 完成，应答客户端之后， T2才开始 commit，之后提交成功。假如后续 R1、 R2 没有其它修改，现在开始事务 T3，去读T2 关于 R2 的修改，如果能够读到，那么后续开启 T4 去读 T1 对 R1 的修改是否能够读到？
+A、可以
+B、不可以
+答案： A
+
+单选题： OBProxy 在启动会，会维护一个它所管理集群的路由表信息，该路由表记录了该集群所有 Partition 的分布情况，当有 partition 发生切主或者副本迁移时， OBProxy 会________？
+A、第一时间主动刷新路由表
+B、周期性（默认值 60 秒）刷新路由表
+C、接收到的 SQL 语句涉及该 partition，路由到错误的 OBServer 上之后，请求会被转发到正确的 observer, 之后再刷新路由表
+D、不刷新
+答案： C
+
+单选题：以下关于弱一致性读的描述，正确的是
+A、 OceanBase 数据库在 RC 和 RR 隔离级别下都支持弱读
+B、可使用参数 ob_read_consistency 控制是否开启弱读
+C、可使用 SQL hint read_consistency 控制是否开启弱读
+D、可使用 SQL hint read_consistency 指定弱读时能接受的备副本的最大时延
+答案： C
+
+单选题： slow_transaction_time_threshold 的默认值
+A、 1s
+B、 10s
+C、 100ms
+D、 5s
+答案： D
+
+单选：执行下列命令查看 OBproxy 的 LDC 情况，正确的是？
+A、系统租户通过 2881 端口登陆，运行 show proxyinfo idc;
+B、系统租户通过 2883 端口登陆，运行 show proxyidc;
+C、系统租户通过 2881 端口登陆，运行 show proxyidc;
+D、系统租户通过 2883 端口登陆，运行 show proxyinfo idc;
+答案： D
+
+选择题：弱一致性读读写分离部署：对于读写分离的场景
+A、OBProxy 会把请求优先发送到本地的不在合并的备
+B、OBProxy 会把请求优先发送到本地的在合并的备
+答案： A
+
+单选题： 弱一致读设置优先级顺序,问优先级从高到底排序：
+A、租户全局变量、 session 会话设置、 hint
+B、session 会话设置、 hint、租户全局变量
+C、hint 、 session 、 全局
+答案： C
+
+单选题： 关于 OBProxy 和 Ob 集群（observer）的连接方式，下面说法是正确的？
+A、 客户端 session 结束后，终止连接
+B、 保持长连接
+C、 保持短连接， 60 秒超时
+D、 采用连接池的方式连接
+答案：B
+
+单选题： observer LDC 通过哪个数据字典查看：
+A、__all_server
+B、__all_zone
+C、__all_server_ldc
+答案：B
+
+关于 LDC 配置，查询内部表为：
+A、 __all_zone
+B、 __all_server_idc
+C、 __all_server
+D、 __all_idc
+答案： A
+
+如下哪些信息是 obproxy 可以从 config server 获取的？（单选题）
+A、集群机器列表信息
+B、集群列表
+C、集群租户信息
+D、集群 RS 列表
+答案： D
+
+如何查看某台机器上的 OBProxy 的连接数？
+A、通过该机器 OBproxy 端口，系统租户登录集群，运行 show processlist 命令查看
+B、登录该机器，查看 OBserver 的应用日志
+C、登录该机器，查看 OBproxy 的应用日志
+D、通过该机器 OBproxy 端口，系统租户登录集群，运行 show proxyconfig 命令查看
+答案： A
+
+如下哪个是针对弱一致性读的第一选择？
+A、随机选择一台机器
+B、选取同地域机房不在合并的副本
+C、选取本机房不在合并的副本
+D、选择本机房正在合并的副本
+答案： C
+
+单选：如果 sql 查询跨副本的话，以下哪个是正确的？
+A、 obproxy 解析分区信息后，选择一个不在非目标的 observer 上，由这个中立的 observer 制定完整的 sql
+B、 obproxy 解析分区信息后，将 sql 发到多个目标 observer 上，并将结果集进行聚合
+C、 obproxy 发现查询多副本，无法执行直接报错
+D、 obproxy 解析分区信息后，将 sql 发到一个目标 observer 上，由 observer 执行完整的 sql
+答案： D
+
+单选题：如果 sql 请求的 observer 损坏，下面关于 obproxy 的说法正确的是：
+A、Obproxy 会每隔 60s 刷新路由表
+B、Obproxy 不会刷新路由表
+C、Obproxy 会将 sql 请求发送到损坏的 observer 时，再将请求转发给好的 observer,然后刷新obproxy 路由。
+D、Obproxy 会先刷新路由然后再访问正常的 observer
+答案： C
+
+单选题：目前 OB 恢复的最小粒度是？
+A、分区级
+B、表级
+C、租户级
+D、集群级
+答案： C
+
+单选题： OceanBase 默认的单个事务的空闲超时时间是多少？
+A、 10 秒
+B、 100 秒
+C、 120 秒
+D、无限制
+答案： C
+
+单选：如下哪些是有关故障节点替换运维操作错误的描述？
+A、启动 observer 服务前，需检查该机器 ntp 同步状态和服务行状况
+B、需要使用操作系统 admin 用户启动 observer 进程
+C、检查 __all_server 表， 查看 status 为'active' 则表示 observer 正常启动并开始提供服务
+D、查看永久下线系统参数， 将永久下线时间改回默认值 3600s (alter system set server_permanent_offline_time='3600s')
+答案： C
+
+单选题：下面哪个描述不正确：
+A、在 ob 中提到等待事件等时间时单位默认是毫秒
+B、在 mysql 连接时-c 不会忽略 sql 中的 hint
+C、 Mysql 中登陆时使用 root 用户
+D、 oracle 租户登陆时是 sys 用户
+答案： A
+
+单选题：以下关于 OceanBase 2.x 回收站的描述，以下说法正确的是________？
+A、支持 session 层级的开启或者关闭
+B、回收站内的数据需要数据原始的 owner 才能够操作
+C、可使用回收站功能恢复系统表
+D、使用参数 ob_enable_truncate_flashback 控制是否允许 truncate table 进回收站
+答案： A
+
+单选题：关于系统视图表错误的是：
+A、 gv$memstore 展示当前租户所有 obderver 上 memstore 的信息
+B、 对于等待事件和统计事件相关字段，时间类型单位如无特殊说明是毫秒
+C、 每当一个 observer 启动之后，其对应的 v$系列视图便可用于诊断查询
+D、 gv$视图的不同之处在于，会从集群所有的 observer 查询结果并返回
+答案： B
+
+单选题： truncate 操作，原始表会进入回收站吗？
+A、 进
+B、 不进
+C、 要看 parameter 的设置，如果 ob_enable_truncate_flashback 设置的是 ON，就进入，否则不进入
+D、 要看 variable 的设置，如果 ob_enable_truncate_flashback 设置的是 ON，就进入，否则不进入
+答案： D
+
+以下说法错误的事
+A、 Flashback 可以恢复 delete 数据
+B、可以自动清除回收站
+C、如果在 t1 时间进行合并， flashback 可以恢复到 t1 时刻数据
+D、回收站可以恢复 Truncate 数据
+答案： B
+
+启动 OBServer ，使用哪个端口？
+A、2882
+B、2881
+C、2883
+D、2880
+答案： A
+
+单选题： Clog 磁盘空间达到多少时会报警
+A、80%
+B、85%
+C、90%
+D、95%
+答案：D
+
+单选题： trace_log_slow_query_watermark 这个参数会根据业务需要进行设置，如果设置太小，会有什么影响
+A、降低写日志的 io,提升性能
+B、减少 trace 日志打印，提高性能
+C、打印大量 trace 日志会影响性能
+D、对性能无影响
+答案： C
+
+单选题： OceanBase 中执行时间超过 trace_log_slow_query_watermark (配置项)的 sql 都会打 slow query 日志。进入 OceanBase 日志目录 cd /home/admin/oceanbase/log ，在涉及时间段的observer.log 中 grep slow query 日志 trace_log_slow_query_watermark 这个参数的默认值？
+A、10S
+B、120S
+C、1S
+D、100ms
+答案： D
+
+单选：关于 OB 租户和用户权限的描述，错误的是？
+A.Oracle 模式的租户，管理员用户为 sys
+B.MySQL 模式的租户，管理员用户为 root
+C.系统租户可以创建普通租户，并能调整资源分配
+D.系统租户可以设置其他租户的用户密码
+答案： D
+
+单选：以下哪些关于用户权限等级描述不正确的是：
+A、 租户层级权限适用于所有的租户。 使用 GRANT ALL ON cluster_NANE.tenant_name 授予租户层级权限。
+B、 数据库层级：适用于一个给定数据库中的所有目标。使用 GRANT ALL ON db_name.*授予数据库权限
+C、 表层级：表权限适用于一个给定表中的所有列。使用 GRANT ALL ON db_name.tbl_name授予表权限
+D、 全局层级：适用于所有的数据库。使用 GRANT ALL ON *.*授予全局权限。
+答案： A
+
+不属于用户管理的是：
+A、锁定租户
+B、撤销权限
+C、修改密码
+D、删除用户
+答案： A
+
+单选： Observer 日志级别从高到低的顺序是：
+A、ERROR>WARN>INFO>DEBUG>TRACE
+B、ERROR>WARN>INFO >TRACE>DEBUG
+C、ERROR >INFO>WARN >TRACE>DEBUG
+D、ERROR>WARN >TRACE>INFO>DEBUG
+答案： B
+
+单选：慢查询 sql，通过日志文件捞取，指定时间点参数是？
+A、 trace_log_slow_query_watermark
+B、 trace_log_slow_query_thread
+C、 log_slow_query_watermark
+D、 log_slow_query_thread
+答案： A
+
+单选题：默认情况下， observer 宕机多长时间不处理，会认为永久下线？
+A、 60 分钟
+B、 24 小时
+C、 30 分钟
+D、不会自动下线
+答案： A
+
+单选： gv$sql_audit 和 gv$plan_cache_plan_stat 单选
+A、 gv$sql_audit 记录每一次 sql 执行的信息，而 gv$plan_cache_plan_stat 以 sql id 为维度的多次执行的信息汇总
+B、 gv$sql_audit 以 sql id 为维度的多次执行的信息汇总， gv$plan_cache_pan_stat 记录的是每一条 sql 执行的信息
+C、 gv$sql_audit 和 gv$plan_cache_plan_stat 记录的都是每一次 sql 执行的信息
+D、 gv$sql_audit 和 gv$plan_cache_plan_stat 记录的都是以 sql_id 为维度的汇总信息
+答案： A
+
+单选题： OB 中，什么东西能够唯一标识一条 sql 的执行：
+A、 sql_id
+B、 plan_id
+C、 tenant_id
+D、 trace_id
+答案： D
+
+以下关于OceanBase各类副本，说法错误的是？
+A、 全能型副本和日志型副本都参与投票
+B、 全能型副本和日志型副本都有 SSTable
+C、 “只读型副本有 MemTable 和 SSTable”
+D、 只读型副本包含完整的日志
+答案：B
+
+集群合并卡住后，哪种操作的风险最小？
+A、 直接重启 observer 进程
+B、 stop server
+C、 先 stop server，后重启 observer 进程
+D、 先 suspend merge，后重启 observer 进程
+答案： C
+
+从commit 到 commit ok,标准两阶段提交和ob两阶段提交，几次日志延迟，几次rpc延迟。
+A、4 2 1 2
+B、4 2 1 1
+C、4 2 2 2
+D、4 2 2 1
+答案： B
